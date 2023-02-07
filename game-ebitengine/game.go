@@ -14,7 +14,7 @@ func NewGame() *Game {
 	config := LoadConfig()
 
 	return &Game{
-		ship:   NewShip(config.ScreenWidth, config.ScreenHeight),
+		ship:   NewShip(config.ShipSpeedFactor, config.ScreenWidth, config.ScreenHeight),
 		input:  &Input{"Hello, World"},
 		config: config,
 	}
@@ -28,14 +28,14 @@ func (g *Game) Run() error {
 }
 
 func (g *Game) Update() error {
-	var deltas float64
+	var deltas int
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
 		deltas = -1
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		deltas = 1
 	}
 
-	g.ship.Move(deltas*g.config.ShipSpeedFactor, g.config.ScreenWidth)
+	g.ship.Move(deltas, g.config.ScreenWidth)
 
 	return nil
 }
