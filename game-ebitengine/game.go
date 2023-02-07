@@ -28,7 +28,12 @@ func (g *Game) Run() error {
 }
 
 func (g *Game) Update() error {
-	g.input.Update()
+	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
+		g.ship.Move(-1)
+	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
+		g.ship.Move(1)
+	}
+
 	return nil
 }
 

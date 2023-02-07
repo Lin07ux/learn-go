@@ -44,3 +44,7 @@ func (s *Ship) Draw(screen *ebiten.Image) {
 	op.GeoM.Translate(s.x, s.y)
 	screen.DrawImage(s.image, op)
 }
+
+func (s *Ship) Move(x float64) {
+	s.x += x
+}
