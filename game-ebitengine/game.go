@@ -11,10 +11,12 @@ type Game struct {
 }
 
 func NewGame() *Game {
+	config := LoadConfig()
+
 	return &Game{
-		ship:   NewShip(),
+		ship:   NewShip(config.ScreenWidth, config.ScreenHeight),
 		input:  &Input{"Hello, World"},
-		config: LoadConfig(),
+		config: config,
 	}
 }
 
@@ -32,7 +34,7 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(g.config.BgColor)
-	g.ship.Draw(screen, g.config.ScreenWidth, g.config.ScreenHeight)
+	g.ship.Draw(screen)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
