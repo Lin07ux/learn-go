@@ -2,16 +2,17 @@ package main
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 type Game struct {
+	ship   *Ship
 	input  *Input
 	config *Config
 }
 
 func NewGame() *Game {
 	return &Game{
+		ship:   NewShip(),
 		input:  &Input{"Hello, World"},
 		config: LoadConfig(),
 	}
@@ -31,9 +32,9 @@ func (g *Game) Update() error {
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(g.config.BgColor)
-	ebitenutil.DebugPrint(screen, g.input.msg)
+	g.ship.Draw(screen, g.config.ScreenWidth, g.config.ScreenHeight)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return outsideWidth / 2, outsideHeight / 2
+	return outsideWidth, outsideHeight
 }
