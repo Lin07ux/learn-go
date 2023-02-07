@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"image/color"
 	"log"
 )
 
@@ -23,6 +24,7 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
+	screen.Fill(color.RGBA{R: 200, G: 200, B: 200, A: 255})
 	ebitenutil.DebugPrint(screen, g.input.msg)
 }
 
