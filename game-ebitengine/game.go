@@ -35,7 +35,7 @@ func (g *Game) Update() error {
 		deltas = 1
 	}
 
-	g.ship.Move(deltas * g.config.ShipSpeedFactor)
+	g.ship.Move(deltas*g.config.ShipSpeedFactor, g.config.ScreenWidth)
 
 	return nil
 }

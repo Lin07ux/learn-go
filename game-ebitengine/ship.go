@@ -45,6 +45,13 @@ func (s *Ship) Draw(screen *ebiten.Image) {
 	screen.DrawImage(s.image, op)
 }
 
-func (s *Ship) Move(x float64) {
+func (s *Ship) Move(x float64, screenWidth int) {
+	minX, maxX := -float64(s.width)/2, float64(screenWidth)-float64(s.width)/2
 	s.x += x
+
+	if s.x < minX {
+		s.x = minX
+	} else if s.x > maxX {
+		s.x = maxX
+	}
 }
