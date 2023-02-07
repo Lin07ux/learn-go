@@ -28,11 +28,14 @@ func (g *Game) Run() error {
 }
 
 func (g *Game) Update() error {
+	var deltas float64
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		g.ship.Move(-1)
+		deltas = -1
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		g.ship.Move(1)
+		deltas = 1
 	}
+
+	g.ship.Move(deltas * g.config.ShipSpeedFactor)
 
 	return nil
 }
