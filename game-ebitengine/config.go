@@ -23,6 +23,9 @@ type Config struct {
 	MaxBulletNum      int
 
 	AlienSpeedFactor float64
+
+	TitleFontSize  int
+	CommonFontSize int
 }
 
 func LoadConfig() *Config {
