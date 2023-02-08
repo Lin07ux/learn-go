@@ -20,5 +20,5 @@
     "a": 255
   },
   "maxBulletNum": 20,
-  "alienSpeedFactor": 2
+  "alienSpeedFactor": 1
 }

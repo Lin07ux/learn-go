@@ -36,6 +36,7 @@ func (g *Game) Run() error {
 
 func (g *Game) Update() error {
 	g.updateShip()
+	g.updateAliens()
 	g.updateBullets()
 	return nil
 }
@@ -63,6 +64,12 @@ func (g *Game) updateBullets() {
 	if ebiten.IsKeyPressed(ebiten.KeySpace) && len(g.bullets) < cfg.MaxBulletNum && g.ship.LastFireAfter(cfg.ShipFireInterval) {
 		bullet := g.ship.FireBullet(cfg.BulletWidth, cfg.BulletHeight, cfg.BulletSpeedFactor, cfg.BulletColor)
 		g.bullets[bullet] = struct{}{}
+	}
+}
+
+func (g *Game) updateAliens() {
+	for alien := range g.aliens {
+		alien.Move(1)
 	}
 }
 
