@@ -6,6 +6,11 @@ import (
 	"log"
 )
 
+type Rectangle interface {
+	Size() (width, height int)
+	Coordinate() (x, y float64)
+}
+
 type Alien struct {
 	image       *ebiten.Image
 	width       int
@@ -45,4 +50,8 @@ func (a *Alien) Move(deltas int) {
 
 func (a *Alien) Size() (width, height int) {
 	return a.width, a.height
+}
+
+func (a *Alien) Coordinate() (x, y float64) {
+	return a.x, a.y
 }

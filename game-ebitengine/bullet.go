@@ -39,3 +39,35 @@ func (b *Bullet) Move(deltas int) {
 func (b *Bullet) OutOfScreen() bool {
 	return b.y < -float64(b.height)
 }
+
+func (b *Bullet) Hit(target Rectangle) bool {
+	width, height := target.Size()
+	left, top := target.Coordinate()
+	right, bottom := left+float64(width), top+float64(height)
+
+	// 左上角
+	x, y := b.x, b.y
+	if top < y && y < bottom && left < x && x < right {
+		return true
+	}
+
+	// 右上角
+	x, y = b.x+float64(b.width), b.y
+	if top < y && y < bottom && left < x && x < right {
+		return true
+	}
+
+	// 左下角
+	x, y = b.x, b.y+float64(b.height)
+	if top < y && y < bottom && left < x && x < right {
+		return true
+	}
+
+	// 右下角
+	x, y = b.x+float64(b.width), b.y+float64(b.height)
+	if top < y && y < bottom && left < x && x < right {
+		return true
+	}
+
+	return false
+}

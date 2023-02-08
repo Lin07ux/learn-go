@@ -38,6 +38,7 @@ func (g *Game) Update() error {
 	g.updateShip()
 	g.updateAliens()
 	g.updateBullets()
+	g.checkCollision()
 	return nil
 }
 
@@ -70,6 +71,17 @@ func (g *Game) updateBullets() {
 func (g *Game) updateAliens() {
 	for alien := range g.aliens {
 		alien.Move(1)
+	}
+}
+
+func (g *Game) checkCollision() {
+	for alien := range g.aliens {
+		for bullet := range g.bullets {
+			if bullet.Hit(alien) {
+				delete(g.aliens, alien)
+				delete(g.bullets, bullet)
+			}
+		}
 	}
 }
 
