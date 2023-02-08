@@ -18,6 +18,11 @@ const (
 	modeFinished
 )
 
+const (
+	resultWin  = "You Win!"
+	resultFail = "Game Over!"
+)
+
 var (
 	titleFont  font.Face
 	commonFont font.Face
@@ -30,14 +35,14 @@ type Game struct {
 	aliens     map[*Alien]struct{}
 	bullets    map[*Bullet]struct{}
 	collisions int // 碰撞次数（子弹、飞船、屏幕下边界与外星人飞碟的碰撞）
+	result     string
 }
 
 func NewGame(config *Config) *Game {
 	return &Game{
-		mode:    modePending,
-		ship:    NewShip(config.ShipSpeedFactor, config.ScreenWidth, config.ScreenHeight),
-		config:  config,
-		bullets: make(map[*Bullet]struct{}),
+		mode:   modePending,
+		ship:   NewShip(config.ShipSpeedFactor, config.ScreenWidth, config.ScreenHeight),
+		config: config,
 	}
 }
 
@@ -84,13 +89,16 @@ func (g *Game) Update() error {
 	switch g.mode {
 	case modePending:
 		if ebiten.IsKeyPressed(ebiten.KeySpace) {
+			g.result = ""
+			g.collisions = 0
+			g.bullets = make(map[*Bullet]struct{})
 			if err := g.createAliens(3); err != nil {
 				return err
 			}
 			g.mode = modePlaying
 		}
 	case modeFinished:
-		if ebiten.IsKeyPressed(ebiten.KeySpace) {
+		if ebiten.IsKeyPressed(ebiten.KeyR) {
 			g.mode = modePending
 		}
 	case modePlaying:
@@ -98,6 +106,7 @@ func (g *Game) Update() error {
 		g.updateAliens()
 		g.updateBullets()
 		g.checkCollision()
+		g.checkResult()
 	}
 
 	return nil
@@ -137,14 +146,39 @@ func (g *Game) updateAliens() {
 
 func (g *Game) checkCollision() {
 	for alien := range g.aliens {
+		// 跑到屏幕外
+		if alien.OutOfScreen(g.config.ScreenHeight) {
+			g.collisions++
+			delete(g.aliens, alien)
+			continue
+		}
+
+		// 与飞船碰撞
+		if checkElementCollision(alien, g.ship) {
+			g.collisions++
+			delete(g.aliens, alien)
+			continue
+		}
+
 		// 被子弹击中
 		for bullet := range g.bullets {
 			if checkElementCollision(alien, bullet) {
-				g.collisions++
 				delete(g.aliens, alien)
 				delete(g.bullets, bullet)
 			}
 		}
+	}
+}
+
+func (g *Game) checkResult() {
+	if g.collisions >= 3 {
+		g.result = resultFail
+	} else if len(g.aliens) == 0 {
+		g.result = resultWin
+	}
+
+	if len(g.result) > 0 {
+		g.mode = modeFinished
 	}
 }
 
@@ -155,7 +189,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case modePending:
 		g.drawText(screen, []string{"ALIEN INVASION"}, []string{"", "", "", "", "", "", "", "PRESS SPACE KEY TO START"})
 	case modeFinished:
-		g.drawText(screen, []string{}, []string{"", "GAME OVER!"})
+		g.drawText(screen, []string{}, []string{"", "", "", g.result})
 	case modePlaying:
 		g.ship.Draw(screen)
 		for bullet := range g.bullets {

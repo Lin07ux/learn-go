@@ -84,3 +84,11 @@ func (s *Ship) FireBullet(width, height int, speedFactor float64, bgColor color.
 
 	return bullet
 }
+
+func (s *Ship) Size() (width int, height int) {
+	return s.width, s.height
+}
+
+func (s *Ship) Coordinate() (x, y float64) {
+	return s.x, s.y
+}

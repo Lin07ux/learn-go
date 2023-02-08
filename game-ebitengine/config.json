@@ -21,6 +21,6 @@
   },
   "maxBulletNum": 20,
   "alienSpeedFactor": 1,
-  "titleFontSize": 20,
+  "titleFontSize": 24,
   "commonFontSize": 16
 }

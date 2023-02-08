@@ -43,6 +43,10 @@ func (a *Alien) Move(deltas int) {
 	a.y += float64(deltas) * a.speedFactor
 }
 
+func (a *Alien) OutOfScreen(screenHeight int) bool {
+	return a.y >= float64(screenHeight)
+}
+
 func (a *Alien) Size() (width, height int) {
 	return a.width, a.height
 }
