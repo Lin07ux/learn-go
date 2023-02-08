@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	if err := NewGame().Run(); err != nil {
+	if err := NewGame(LoadConfig()).Run(); err != nil {
 		log.Fatal(err)
 	}
 }

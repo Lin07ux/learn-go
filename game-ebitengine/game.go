@@ -12,24 +12,20 @@ type Game struct {
 	bullets map[*Bullet]struct{}
 }
 
-func NewGame() *Game {
-	config := LoadConfig()
-
-	game := &Game{
+func NewGame(config *Config) *Game {
+	return &Game{
 		ship:    NewShip(config.ShipSpeedFactor, config.ScreenWidth, config.ScreenHeight),
 		config:  config,
 		aliens:  make(map[*Alien]struct{}),
 		bullets: make(map[*Bullet]struct{}),
 	}
-
-	game.createAliens(2)
-
-	return game
 }
 
 func (g *Game) Run() error {
 	ebiten.SetWindowTitle(g.config.Title)
 	ebiten.SetWindowSize(g.config.ScreenWidth, g.config.ScreenHeight)
+
+	g.createAliens(3)
 
 	return ebiten.RunGame(g)
 }
@@ -114,7 +110,7 @@ func (g *Game) createAliens(rows int) {
 
 	top := 5.0
 	for row := 0; row < rows; row++ {
-		top += float64(row*alienHeight) * 1.5
+		top -= float64(alienHeight) * 1.5
 		for i := 0; i < aliensNum; i++ {
 			// alienWidth/2 + i * alienWidth + alienWidth/2
 			alien = NewAlien(float64(2*i*alienWidth+alienWidth), top, g.config.AlienSpeedFactor)
