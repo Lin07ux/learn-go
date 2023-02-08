@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"image"
+	"image/color"
 	_ "image/png"
 	"log"
 )
@@ -64,4 +66,12 @@ func (s *Ship) Move(deltas int, screenWidth int) {
 	} else if s.x > maxX {
 		s.x = maxX
 	}
+}
+
+func (s *Ship) FireBullet(width, height int, speedFactor float64, bgColor color.RGBA) *Bullet {
+	rect := image.Rect(0, 0, width, height)
+	img := ebiten.NewImageWithOptions(rect, nil)
+	img.Fill(bgColor)
+
+	return NewBullet(img, speedFactor, s.x+float64(s.width-width)/2, s.y-float64(height))
 }

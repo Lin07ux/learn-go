@@ -8,11 +8,17 @@ import (
 )
 
 type Config struct {
-	ScreenWidth     int
-	ScreenHeight    int
-	Title           string
-	BgColor         color.RGBA
+	ScreenWidth  int
+	ScreenHeight int
+	Title        string
+	BgColor      color.RGBA
+
 	ShipSpeedFactor float64
+
+	BulletWidth       int
+	BulletHeight      int
+	BulletSpeedFactor float64
+	BulletColor       color.RGBA
 }
 
 func LoadConfig() *Config {
