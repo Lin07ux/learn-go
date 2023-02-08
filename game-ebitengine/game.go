@@ -25,10 +25,11 @@ var (
 
 type Game struct {
 	mode
-	ship    *Ship
-	config  *Config
-	aliens  map[*Alien]struct{}
-	bullets map[*Bullet]struct{}
+	ship       *Ship
+	config     *Config
+	aliens     map[*Alien]struct{}
+	bullets    map[*Bullet]struct{}
+	collisions int // 碰撞次数（子弹、飞船、屏幕下边界与外星人飞碟的碰撞）
 }
 
 func NewGame(config *Config) *Game {
@@ -136,8 +137,10 @@ func (g *Game) updateAliens() {
 
 func (g *Game) checkCollision() {
 	for alien := range g.aliens {
+		// 被子弹击中
 		for bullet := range g.bullets {
-			if bullet.Hit(alien) {
+			if checkElementCollision(alien, bullet) {
+				g.collisions++
 				delete(g.aliens, alien)
 				delete(g.bullets, bullet)
 			}

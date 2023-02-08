@@ -6,11 +6,6 @@ import (
 	"log"
 )
 
-type Rectangle interface {
-	Size() (width, height int)
-	Coordinate() (x, y float64)
-}
-
 type Alien struct {
 	image       *ebiten.Image
 	width       int
