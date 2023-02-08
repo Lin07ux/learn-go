@@ -35,3 +35,7 @@ func (b *Bullet) Draw(screen *ebiten.Image) {
 func (b *Bullet) Move(deltas int) {
 	b.y += float64(deltas) * b.speedFactor
 }
+
+func (b *Bullet) OutOfScreen() bool {
+	return b.y < -float64(b.height)
+}

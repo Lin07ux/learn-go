@@ -47,6 +47,9 @@ func (g *Game) updateShip() {
 func (g *Game) updateBullets() {
 	for bullet := range g.bullets {
 		bullet.Move(-1)
+		if bullet.OutOfScreen() {
+			delete(g.bullets, bullet)
+		}
 	}
 
 	cfg := g.config
