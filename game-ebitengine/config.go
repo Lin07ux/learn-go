@@ -21,6 +21,8 @@ type Config struct {
 	BulletSpeedFactor float64
 	BulletColor       color.RGBA
 	MaxBulletNum      int
+
+	AlienSpeedFactor float64
 }
 
 func LoadConfig() *Config {

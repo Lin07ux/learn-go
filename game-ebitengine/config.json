@@ -19,5 +19,6 @@
     "b": 80,
     "a": 255
   },
-  "maxBulletNum": 20
+  "maxBulletNum": 20,
+  "alienSpeedFactor": 2
 }
