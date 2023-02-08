@@ -6,7 +6,6 @@ import (
 
 type Game struct {
 	ship    *Ship
-	input   *Input
 	config  *Config
 	bullets map[*Bullet]struct{}
 }
@@ -16,7 +15,6 @@ func NewGame() *Game {
 
 	return &Game{
 		ship:    NewShip(config.ShipSpeedFactor, config.ScreenWidth, config.ScreenHeight),
-		input:   &Input{"Hello, World"},
 		config:  config,
 		bullets: make(map[*Bullet]struct{}),
 	}
