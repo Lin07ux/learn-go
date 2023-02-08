@@ -9,6 +9,7 @@
     "a": 255
   },
   "shipSpeedFactor": 3,
+  "shipFireInterval": 100,
   "bulletWidth": 3,
   "bulletHeight": 15,
   "bulletSpeedFactor": 2,
@@ -17,5 +18,6 @@
     "g": 80,
     "b": 80,
     "a": 255
-  }
+  },
+  "maxBulletNum": 20
 }

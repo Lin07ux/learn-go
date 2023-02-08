@@ -13,12 +13,14 @@ type Config struct {
 	Title        string
 	BgColor      color.RGBA
 
-	ShipSpeedFactor float64
+	ShipSpeedFactor  float64
+	ShipFireInterval int64
 
 	BulletWidth       int
 	BulletHeight      int
 	BulletSpeedFactor float64
 	BulletColor       color.RGBA
+	MaxBulletNum      int
 }
 
 func LoadConfig() *Config {

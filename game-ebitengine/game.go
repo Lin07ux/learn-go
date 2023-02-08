@@ -49,8 +49,9 @@ func (g *Game) updateBullets() {
 		bullet.Move(-1)
 	}
 
-	if ebiten.IsKeyPressed(ebiten.KeySpace) {
-		bullet := g.ship.FireBullet(g.config.BulletWidth, g.config.BulletHeight, g.config.BulletSpeedFactor, g.config.BulletColor)
+	cfg := g.config
+	if ebiten.IsKeyPressed(ebiten.KeySpace) && len(g.bullets) < cfg.MaxBulletNum && g.ship.LastFireAfter(cfg.ShipFireInterval) {
+		bullet := g.ship.FireBullet(cfg.BulletWidth, cfg.BulletHeight, cfg.BulletSpeedFactor, cfg.BulletColor)
 		g.bullets[bullet] = struct{}{}
 	}
 }

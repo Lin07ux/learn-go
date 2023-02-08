@@ -7,15 +7,17 @@ import (
 	"image/color"
 	_ "image/png"
 	"log"
+	"time"
 )
 
 type Ship struct {
-	image       *ebiten.Image
-	width       int
-	height      int
-	speedFactor float64
-	x           float64
-	y           float64
+	image          *ebiten.Image
+	width          int
+	height         int
+	speedFactor    float64
+	x              float64
+	y              float64
+	lastBulletTime time.Time
 }
 
 func NewShip(speedFactor float64, screenWidth, screenHeight int) *Ship {
@@ -68,10 +70,17 @@ func (s *Ship) Move(deltas int, screenWidth int) {
 	}
 }
 
+func (s *Ship) LastFireAfter(interval int64) bool {
+	return time.Now().Sub(s.lastBulletTime).Milliseconds() > interval
+}
+
 func (s *Ship) FireBullet(width, height int, speedFactor float64, bgColor color.RGBA) *Bullet {
 	rect := image.Rect(0, 0, width, height)
 	img := ebiten.NewImageWithOptions(rect, nil)
 	img.Fill(bgColor)
 
-	return NewBullet(img, speedFactor, s.x+float64(s.width-width)/2, s.y-float64(height))
+	bullet := NewBullet(img, speedFactor, s.x+float64(s.width-width)/2, s.y-float64(height))
+	s.lastBulletTime = time.Now()
+
+	return bullet
 }
