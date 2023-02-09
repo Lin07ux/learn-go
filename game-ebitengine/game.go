@@ -187,9 +187,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	switch g.mode {
 	case modePending:
-		g.drawText(screen, []string{"ALIEN INVASION"}, []string{"", "", "", "", "", "", "", "PRESS SPACE KEY TO START"})
+		g.drawText(screen, []string{"ALIEN INVASION"}, []string{"PRESS SPACE KEY TO START"})
 	case modeFinished:
-		g.drawText(screen, []string{}, []string{"", "", "", g.result})
+		g.drawText(screen, []string{g.result}, []string{"PRESS R KEY TO RESTART"})
 	case modePlaying:
 		g.ship.Draw(screen)
 		for bullet := range g.bullets {
@@ -202,14 +202,19 @@ func (g *Game) Draw(screen *ebiten.Image) {
 }
 
 func (g *Game) drawText(screen *ebiten.Image, titles, content []string) {
-	for i, t := range titles {
+	y := 3 * g.config.TitleFontSize
+
+	for _, t := range titles {
 		x := (g.config.ScreenWidth - len(t)*g.config.TitleFontSize) / 2
-		text.Draw(screen, t, titleFont, x, (i+4)*g.config.TitleFontSize, color.White)
+		y += g.config.TitleFontSize * 18 / 10
+		text.Draw(screen, t, titleFont, x, y, color.White)
 	}
 
-	for i, c := range content {
+	y += g.config.TitleFontSize + 3*g.config.CommonFontSize
+	for _, c := range content {
 		x := (g.config.ScreenWidth - len(c)*g.config.CommonFontSize) / 2
-		text.Draw(screen, c, commonFont, x, (i+4)*g.config.CommonFontSize, color.White)
+		y += g.config.CommonFontSize * 15 / 10
+		text.Draw(screen, c, commonFont, x, y, color.White)
 	}
 }
 
