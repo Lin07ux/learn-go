@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/lin07ux/learn-go/game-ebitengine/resources"
 	"log"
 )
 
@@ -16,7 +18,7 @@ type Alien struct {
 }
 
 func NewAlien(x, y, speedFactor float64) *Alien {
-	img, _, err := ebitenutil.NewImageFromFile("./assets/alien.png")
+	img, _, err := ebitenutil.NewImageFromReader(bytes.NewReader(resources.AlienPng))
 	if err != nil {
 		log.Fatal(err)
 	}

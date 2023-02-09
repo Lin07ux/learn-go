@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/lin07ux/learn-go/game-ebitengine/resources"
 	"image"
 	"image/color"
 	_ "image/png"
@@ -21,7 +23,7 @@ type Ship struct {
 }
 
 func NewShip(speedFactor float64, screenWidth, screenHeight int) *Ship {
-	img, _, err := ebitenutil.NewImageFromFile("./assets/ship.png")
+	img, _, err := ebitenutil.NewImageFromReader(bytes.NewReader(resources.ShipPng))
 	if err != nil {
 		log.Fatalf("ship: load failed: %v\n", err)
 	}
