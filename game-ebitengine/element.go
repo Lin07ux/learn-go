@@ -6,34 +6,28 @@ type Element interface {
 }
 
 func checkElementCollision(elementA, elementB Element) bool {
-	width, height := elementA.Size()
-	left, top := elementA.Coordinate()
-	right, bottom := left+float64(width), top+float64(height)
+	widthA, heightA := elementA.Size()
+	leftA, topA := elementA.Coordinate()
 
-	// 左上角
-	w, h := elementB.Size()
-	x, y := elementB.Coordinate()
-	if left < x && x < right && top < y && y < bottom {
-		return true
+	widthB, heightB := elementB.Size()
+	leftB, topB := elementB.Coordinate()
+
+	top, bottom := max(topA, topB), min(topA+float64(heightA), topB+float64(heightB))
+	left, right := max(leftA, leftB), min(leftA+float64(widthA), leftB+float64(widthB))
+
+	return top <= bottom && left <= right
+}
+
+func min(a, b float64) float64 {
+	if a > b {
+		return b
 	}
+	return a
+}
 
-	// 右上角
-	x += float64(w)
-	if left < x && x < right && top < y && y < bottom {
-		return true
+func max(a, b float64) float64 {
+	if a > b {
+		return a
 	}
-
-	// 右下角
-	y += float64(h)
-	if left < x && x < right && top < y && y < bottom {
-		return true
-	}
-
-	// 左下角
-	x -= float64(w)
-	if left < x && x < right && top < y && y < bottom {
-		return true
-	}
-
-	return false
+	return b
 }
