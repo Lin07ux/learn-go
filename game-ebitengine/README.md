@@ -33,3 +33,16 @@ go build . alien_invasion
 ```shell
 go install -v github.com/hajimehoshi/file2byteslice/cmd/file2byteslice@latest
 ```
+
+### 网页运行
+
+使用 Go 内置对 WASM 的支持，将游戏编译成 WASM 格式，从而可以在网页上运行该游戏：
+
+```shell
+GOOS=js GOARCH=wasm go build -o ./wasm/alien_invasion.wasm
+
+cd wasm
+go run main.go
+```
+
+然后就可以在网页中访问 `http://localhost:8088/wasm_exec.html` 来运行游戏了。
