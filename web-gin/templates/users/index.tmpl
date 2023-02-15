@@ -10,6 +10,13 @@
 <body>
     <h1>{{ .title }}</h1>
     <p>Using users/index.tmpl</p>
+    <ul>
+        {{ range $index, $user := .users }}
+        <li>{{ $index }} - {{ $user }}</li>
+        {{ else }}
+        <li style="color: dimgrey">没有用户</li>
+        {{ end }}
+    </ul>
 </body>
 </html>
 {{ end }}

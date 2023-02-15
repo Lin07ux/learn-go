@@ -28,11 +28,13 @@ func main() {
 	r.GET("/posts", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "posts/index.tmpl", gin.H{
 			"title": "Posts",
+			"posts": []string{"Go", "PHP", "Java", "JavaScript"},
 		})
 	})
 	r.GET("/users", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "users/index.tmpl", gin.H{
 			"title": "Users",
+			"users": []string{},
 		})
 	})
 	r.GET("/books", func(c *gin.Context) {
