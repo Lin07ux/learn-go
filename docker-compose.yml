@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    image: golang:latest
+    volumes:
+      - $PWD:/go/src/github.com/learn-go
+    ports:
+      - "8800:8800"
+    working_dir: /go/src/github.com/learn-go/net-http/
+    command:
+      - go
+      - run
+      - .
+
+  database:
+    image: mysql:latest
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=go_web"
+      - "MYSQL_USER=go_web"
+      - "MYSQL_PASSWORD=go_web"
+      - "MYSQL_ROOT_PASSWORD=secret"
+
+volumes:
+  dbdata:
