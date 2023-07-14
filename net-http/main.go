@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -10,21 +9,10 @@ import (
 	"syscall"
 )
 
-type HelloWorld struct {
-	content string
-}
-
-func (h *HelloWorld) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	_, _ = fmt.Fprintf(w, h.content)
-}
-
 func main() {
-	mux := http.NewServeMux()
-	mux.Handle("/", &HelloWorld{content: "Hello World Struct"})
-
 	server := http.Server{
 		Addr:    ":8800",
-		Handler: mux,
+		Handler: InitRoutes(),
 	}
 
 	// 创建系统信号接收器
