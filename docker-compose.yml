@@ -12,16 +12,26 @@ services:
       - go
       - run
       - .
+    networks:
+      - go-learn
 
   database:
     image: mysql:latest
     volumes:
-      - dbdata:/var/lib/mysql
+      - db-data:/var/lib/mysql
     environment:
       - "MYSQL_DATABASE=go_web"
       - "MYSQL_USER=go_web"
       - "MYSQL_PASSWORD=go_web"
       - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+      - "33061:3306"
+    networks:
+      - go-learn
 
 volumes:
-  dbdata:
+  db-data:
+
+networks:
+  go-learn:
+    driver: bridge

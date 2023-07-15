@@ -10,6 +10,7 @@ func InitRoutes() *mux.Router {
 	r := mux.NewRouter()
 	r.Use(middleware.Logging())
 	r.Handle("/", &HelloWorld{content: "Hello World Struct"})
+	r.HandleFunc("/mysql", MySqlDemo)
 
 	visitorRouter := r.PathPrefix("/visitors").Subrouter()
 	visitorRouter.Use(middleware.Method("GET"))
