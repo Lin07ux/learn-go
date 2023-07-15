@@ -24,5 +24,9 @@ func ShowVisitor(w http.ResponseWriter, r *http.Request) {
 
 func MySqlDemo(w http.ResponseWriter, r *http.Request) {
 	database.MySqlDemo()
-	_, _ = fmt.Fprintf(w, "success")
+	_, _ = fmt.Fprintf(w, "ping success")
+}
+
+func CreateMySqlTable(w http.ResponseWriter, r *http.Request) {
+	_, _ = fmt.Fprintf(w, database.CreateTable())
 }
