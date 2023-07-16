@@ -15,6 +15,10 @@ func InitRoutes() *mux.Router {
 	mysqlRouter.HandleFunc("/ping", MySqlDemo)
 	mysqlRouter.HandleFunc("/table", CreateMySqlTable)
 
+	userRouter := r.PathPrefix("/users").Subrouter()
+	userRouter.HandleFunc("/", InsertUser).Methods("POST")
+	userRouter.HandleFunc("/{id}", UserDetail).Methods("GET")
+
 	visitorRouter := r.PathPrefix("/visitors").Subrouter()
 	visitorRouter.Use(middleware.Method("GET"))
 	visitorRouter.HandleFunc("/{name}/countries/{country}", ShowVisitor)
