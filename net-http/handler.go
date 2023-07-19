@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -51,8 +52,8 @@ func UserDetail(w http.ResponseWriter, r *http.Request) {
 	vars := mux2.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
-		fmt.Println("invalid user id:", vars["id"])
-		_, _ = fmt.Fprintf(w, "Not Found")
+		log.Println("invalid user id:", vars["id"])
+		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 
@@ -60,4 +61,22 @@ func UserDetail(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal(user)
 	w.Header().Set("Content-Type", "application/json")
 	_, _ = fmt.Fprintf(w, "%s", res)
+}
+
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux2.Vars(r)
+	id, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		log.Println("invalid user id:", vars["id"])
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	err = database.DeleteUser(int64(id))
+	if err != nil {
+		log.Println("delete user failed:", err)
+		w.WriteHeader(http.StatusExpectationFailed)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 }

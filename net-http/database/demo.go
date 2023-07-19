@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
@@ -110,4 +111,25 @@ func QueryUser(id int64) User {
 		log.Println("query user failed:", err)
 	}
 	return user
+}
+
+func DeleteUser(id int64) error {
+	db := getDbConnection()
+	defer func() {
+		_ = db.Close()
+	}()
+
+	result, err := db.Exec("DELETE FROM users WHERE id = ?", id)
+	if err != nil {
+		return fmt.Errorf("delete user[%d] failed: %w", id, err)
+	}
+
+	var affected int64
+	if affected, err = result.RowsAffected(); err != nil {
+		return fmt.Errorf("get deleted users count failed: %w", err)
+	}
+	if affected == 0 {
+		return fmt.Errorf("undeleted user")
+	}
+	return nil
 }

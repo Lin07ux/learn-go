@@ -19,6 +19,7 @@ func InitRoutes() *mux.Router {
 	userRouter.HandleFunc("/", InsertUser).Methods("POST")
 	userRouter.HandleFunc("/", UserList).Methods("GET")
 	userRouter.HandleFunc("/{id}", UserDetail).Methods("GET")
+	userRouter.HandleFunc("/{id}", DeleteUser).Methods("DELETE")
 
 	visitorRouter := r.PathPrefix("/visitors").Subrouter()
 	visitorRouter.Use(middleware.Method("GET"))
