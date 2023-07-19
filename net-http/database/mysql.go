@@ -6,7 +6,7 @@ import (
 )
 
 func getDbConnection() *sql.DB {
-	db, err := sql.Open("mysql", "go_web:go_web@tcp(database:3306)/go_web")
+	db, err := sql.Open("mysql", "go_web:go_web@tcp(database:3306)/go_web?parseTime=true")
 	if err != nil {
 		log.Fatal("open mysql failed:", err)
 	}
