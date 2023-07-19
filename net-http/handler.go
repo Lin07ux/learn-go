@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -36,7 +37,14 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 	username := "Lin07ux"
 	password := "secret"
 	id := database.InsertData(username, password)
-	fmt.Fprintf(w, "%d", id)
+	_, _ = fmt.Fprintf(w, "%d", id)
+}
+
+func UserList(w http.ResponseWriter, r *http.Request) {
+	users := database.QueryUserList()
+	res, _ := json.Marshal(users)
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = fmt.Fprintf(w, "%s", res)
 }
 
 func UserDetail(w http.ResponseWriter, r *http.Request) {
@@ -49,5 +57,7 @@ func UserDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user := database.QueryUser(int64(id))
-	_, _ = fmt.Fprintf(w, "%v", user)
+	res, _ := json.Marshal(user)
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = fmt.Fprintf(w, "%s", res)
 }

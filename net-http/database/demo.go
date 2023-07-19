@@ -69,6 +69,34 @@ func InsertData(username, password string) int64 {
 	return id
 }
 
+func QueryUserList() []User {
+	db := getDbConnection()
+	defer func() {
+		_ = db.Close()
+	}()
+
+	var users []User
+	rows, err := db.Query("SELECT * FROM users ORDER BY id")
+	if err != nil {
+		log.Println("query users failed:", err)
+		return users
+	}
+	defer func(rows *sql.Rows) {
+		_ = rows.Close()
+	}(rows)
+
+	for rows.Next() {
+		var u User
+		err = rows.Scan(&u.Id, &u.Username, &u.Password, &u.CreatedAt)
+		if err != nil {
+			log.Println("scan users rows failed:", err)
+		} else {
+			users = append(users, u)
+		}
+	}
+	return users
+}
+
 func QueryUser(id int64) User {
 	db := getDbConnection()
 	defer func() {
