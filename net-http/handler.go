@@ -35,8 +35,14 @@ func CreateMySqlTable(w http.ResponseWriter, r *http.Request) {
 }
 
 func InsertUser(w http.ResponseWriter, r *http.Request) {
-	username := "Lin07ux"
-	password := "secret"
+	username := r.FormValue("username")
+	password := r.FormValue("password")
+	if username == "" && password == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = fmt.Fprintf(w, `{"code": -1, "message": "username and password can not be empty"}`)
+		return
+	}
 	id := database.InsertData(username, password)
 	_, _ = fmt.Fprintf(w, "%d", id)
 }
