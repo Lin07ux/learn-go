@@ -133,3 +133,14 @@ func DeleteUser(id int64) error {
 	}
 	return nil
 }
+
+func AuthenticateUser(username, password string) (user User, err error) {
+	db := getDbConnection()
+	defer func() {
+		_ = db.Close()
+	}()
+
+	row := db.QueryRow("SELECT id, username FROM users WHERE username = ? AND password = ? limit 1", username, password)
+	err = row.Scan(&user.Id, &user.Username)
+	return
+}
