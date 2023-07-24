@@ -7,12 +7,14 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/learn-go/net-http/handlers"
 )
 
 func main() {
 	server := http.Server{
 		Addr:    ":8800",
-		Handler: InitRoutes(),
+		Handler: handlers.InitRoutes(),
 	}
 
 	// 创建系统信号接收器
