@@ -25,5 +25,8 @@ func InitRoutes() *mux.Router {
 	visitorRouter.Use(middleware.Method("GET"))
 	visitorRouter.HandleFunc("/{name}/countries/{country}", ShowVisitor)
 
+	viewRouter := r.PathPrefix("/view").Subrouter()
+	viewRouter.HandleFunc("/rooster", ShowRooster)
+
 	return r
 }

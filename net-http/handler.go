@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -85,4 +86,46 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+type Teacher struct {
+	Name    string
+	Subject string
+}
+
+type Student struct {
+	Id      int
+	Name    string
+	Country string
+}
+
+type Rooster struct {
+	Teacher  Teacher
+	Students []Student
+}
+
+func ShowRooster(w http.ResponseWriter, r *http.Request) {
+	teacher := Teacher{
+		Name:    "Alex",
+		Subject: "Physics",
+	}
+	students := []Student{
+		{Id: 1001, Name: "Peter", Country: "China"},
+		{Id: 1002, Name: "Jeniffer", Country: "Sweden"},
+	}
+	rooster := Rooster{
+		Teacher:  teacher,
+		Students: students,
+	}
+
+	tmpl, err := template.ParseFiles("./templates/layout.gohtml",
+		"./templates/nav.gohtml",
+		"./templates/content.gohtml")
+	if err != nil {
+		log.Println("parse rooster template failed:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	_ = tmpl.Execute(w, rooster)
 }
