@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
 
 	"github.com/learn-go/net-http/middleware"
@@ -27,6 +29,9 @@ func InitRoutes() *mux.Router {
 
 	viewRouter := r.PathPrefix("/view").Subrouter()
 	viewRouter.HandleFunc("/rooster", ShowRooster)
+
+	fs := http.FileServer(http.Dir("assets/"))
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", fs))
 
 	return r
 }
