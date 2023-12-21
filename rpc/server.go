@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"flag"
 	"fmt"
 	"os"
@@ -19,6 +20,8 @@ func main() {
 		panic("init ip and port error")
 	}
 
+	gob.Register(User{})
+
 	srv := provider.NewRPCServer(*ip, *port)
 	srv.RegisterName("Test", &TestHandler{})
 	srv.RegisterName("User", &UserHandler{})
@@ -35,12 +38,6 @@ type TestHandler struct{}
 
 func (t *TestHandler) Hello() string {
 	return "hello world"
-}
-
-type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-	Age  int    `json:"age"`
 }
 
 var users = map[int]User{
